@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supercalculateur - Écran de Démonstration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --lyoko-green: #00ff66;
+            --xana-red: #ff0033;
+            --lyoko-blue: #00ccff;
+            --lyoko-yellow: #ffcc00;
+            --bg-dark: #030608;
+            --panel-bg: rgba(8, 14, 20, 0.92);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100vh;
+            background-color: var(--bg-dark);
+            color: var(--lyoko-green);
+            font-family: 'Share Tech Mono', monospace;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #matrix-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            opacity: 0.25;
+        }
+
+        /* Overlay d'activation du son au premier clic */
+        #start-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(3, 6, 8, 0.95);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+        }
+
+        #start-overlay h1 {
+            font-size: 2.5rem;
+            color: var(--lyoko-green);
+            text-shadow: 0 0 20px var(--lyoko-green);
+            text-align: center;
+        }
+
+        #start-overlay p {
+            font-size: 1.2rem;
+            color: #fff;
+            animation: pulseText 1.5s infinite alternate;
+        }
+
+        @keyframes pulseText {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .interface-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90%;
+            max-width: 1250px;
+            background: var(--panel-bg);
+            border: 3px solid var(--xana-red);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(255, 0, 51, 0.4), inset 0 0 30px rgba(255, 0, 51, 0.15);
+            backdrop-filter: blur(8px);
+        }
+
+        .system-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .status-dot {
+            width: 20px;
+            height: 20px;
+            background-color: var(--xana-red);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--xana-red);
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .xana-title {
+            font-size: 3.2rem;
+            color: var(--xana-red);
+            text-shadow: 0 0 25px var(--xana-red);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+        }
+
+        .terminal-box {
+            width: 100%;
+            height: 110px;
+            background: #000;
+            border: 2px solid var(--lyoko-green);
+            border-radius: 10px;
+            margin: 20px 0 35px 0;
+            padding: 20px;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+        }
+
+        #typewriter-text {
+            color: var(--lyoko-green);
+            text-shadow: 0 0 10px var(--lyoko-green);
+            text-transform: uppercase;
+            line-height: 1.4;
+        }
+
+        .cursor {
+            animation: blink 0.8s infinite;
+            color: var(--lyoko-green);
+            font-size: 1.8rem;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .games-grid {
+            display: flex;
+            gap: 25px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .game-card {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #333;
+            color: #666;
+            padding: 30px 20px;
+            border-radius: 14px;
+            transition: all 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 12px;
+            opacity: 0.4;
+            transform: scale(0.95);
+        }
+
+        .game-card h3 {
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .game-card .pc-tag {
+            font-size: 1.1rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .game-card .card-desc {
+            font-size: 1rem;
+            line-height: 1.4;
+            color: #aaa;
+        }
+
+        /* Styles d'activation automatique pour la démonstration */
+        .game-card.active-1 {
+            border-color: var(--lyoko-yellow);
+            color: var(--lyoko-yellow);
+            opacity: 1;
+            transform: scale(1.05);
+            box-shadow: 0 0 35px var(--lyoko-yellow);
+            background: rgba(255, 204, 0, 0.1);
+        }
+
+        .game-card.active-2 {
+            border-color: var(--xana-red);
+            color: var(--xana-red);
+            opacity: 1;
+            transform: scale(1.05);
+            box-shadow: 0 0 35px var(--xana-red);
+            background: rgba(255, 0, 51, 0.1);
+        }
+
+        .game-card.active-3 {
+            border-color: var(--lyoko-blue);
+            color: var(--lyoko-blue);
+            opacity: 1;
+            transform: scale(1.05);
+            box-shadow: 0 0 35px var(--lyoko-blue);
+            background: rgba(0, 204, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="start-overlay" onclick="startSystem()">
+        <h1>🖥️ SUPERCALCULATEUR PRÊT</h1>
+        <p>[ CLIQUER N'IMPORTE OÙ POUR LANCER LA PROJECTION ]</p>
+    </div>
+
+    <canvas id="matrix-bg"></canvas>
+
+    <div class="interface-container">
+        <div class="system-header">
+            <div class="status-dot"></div>
+            <div class="xana-title">SUPERCALCULATEUR</div>
+        </div>
+        
+        <div class="terminal-box">
+            <span id="typewriter-text"></span><span class="cursor">_</span>
+        </div>
+
+        <div class="games-grid">
+            <div class="game-card" id="card-1">
+                <span class="pc-tag">ORDINATEUR 1</span>
+                <h3>MISSION 1</h3>
+                <span class="card-desc">Résolvez l'énigme logique du système pour déverrouiller le terminal.</span>
+            </div>
+            
+            <div class="game-card" id="card-2">
+                <span class="pc-tag">ORDINATEUR 2</span>
+                <h3>CYBER-MAZE</h3>
+                <span class="card-desc">Guidez l'orbe vert dans le labyrinthe sans toucher les murs rouges.</span>
+            </div>
+            
+            <div class="game-card" id="card-3">
+                <span class="pc-tag">ORDINATEUR 3</span>
+                <h3>MISSION 3</h3>
+                <span class="card-desc">Connectez les orbes de même couleur (Cyan, Jaune, Magenta).</span>
+            </div>
+        </div>
+    </div>
+
+    <audio id="xana-audio" loop preload="auto">
+        <source src="xana_voice.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const card1 = document.getElementById('card-1');
+        const card2 = document.getElementById('card-2');
+        const card3 = document.getElementById('card-3');
+        const textElement = document.getElementById('typewriter-text');
+        const xanaAudio = document.getElementById('xana-audio');
+
+        let charIndex = 0;
+        let isDeleting = false;
+        let currentSequence = 0;
+
+        // Sequence de présentation automatique
+        const sequences = [
+            {
+                text: "BIENVENUE DANS LE SUPERCALCULATEUR. 3 ORDINATEURS SONT À VOTRE DISPOSITION.",
+                activeCard: null,
+                activeClass: ''
+            },
+            {
+                text: "ORDINATEUR 1 : DÉCODEZ L'ÉNIGME POUR DÉVERROUILLER LE PREMIER ACCÈS.",
+                activeCard: card1,
+                activeClass: 'active-1'
+            },
+            {
+                text: "ORDINATEUR 2 : PARCOUREZ LE CYBER-MAZE SANS JAMAIS TOUCHER LES MURS ROUGES.",
+                activeCard: card2,
+                activeClass: 'active-2'
+            },
+            {
+                text: "ORDINATEUR 3 : CONNECTEZ LES ORBES D'ÉNERGIE CYAN, JAUNES ET MAGENTA.",
+                activeCard: card3,
+                activeClass: 'active-3'
+            }
+        ];
+
+        function clearCardHighlights() {
+            card1.className = 'game-card';
+            card2.className = 'game-card';
+            card3.className = 'game-card';
+        }
+
+        function runPresentationCycle() {
+            const step = sequences[currentSequence];
+            
+            // Gestion de la carte illuminée
+            clearCardHighlights();
+            if (step.activeCard) {
+                step.activeCard.classList.add(step.activeClass);
+            } else {
+                // Tout faire clignoter légèrement pendant l'accueil général
+                card1.style.opacity = "0.8";
+                card2.style.opacity = "0.8";
+                card3.style.opacity = "0.8";
+            }
+
+            typeWriter(step.text, () => {
+                // Pause après avoir écrit le texte complet (4 secondes)
+                setTimeout(() => {
+                    eraseWriter(() => {
+                        currentSequence = (currentSequence + 1) % sequences.length;
+                        runPresentationCycle();
+                    });
+                }, 4000);
+            });
+        }
+
+        function typeWriter(fullText, onComplete) {
+            if (charIndex < fullText.length) {
+                textElement.innerText = fullText.substring(0, charIndex + 1);
+                charIndex++;
+                setTimeout(() => typeWriter(fullText, onComplete), 45);
+            } else if (onComplete) {
+                onComplete();
+            }
+        }
+
+        function eraseWriter(onComplete) {
+            if (charIndex > 0) {
+                textElement.innerText = textElement.innerText.substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(() => eraseWriter(onComplete), 20);
+            } else if (onComplete) {
+                onComplete();
+            }
+        }
+
+        function startSystem() {
+            document.getElementById('start-overlay').style.display = 'none';
+            xanaAudio.play().catch(() => console.log("Audio non trouvé, continuation en mode visuel."));
+            runPresentationCycle();
+        }
+
+        // --- FOND ANIMÉ PLUIE DE CODE ---
+        const bgCanvas = document.getElementById('matrix-bg');
+        const bgCtx = bgCanvas.getContext('2d');
+        function resBg() { bgCanvas.width = window.innerWidth; bgCanvas.height = window.innerHeight; }
+        window.addEventListener('resize', resBg); resBg();
+        
+        const chars = "01XANA01LYOKO0199";
+        let drops = Array(Math.floor(bgCanvas.width / 22)).fill(1);
+        
+        setInterval(() => {
+            bgCtx.fillStyle = "rgba(3, 6, 8, 0.12)";
+            bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+            
+            bgCtx.fillStyle = "#ff0033";
+            bgCtx.font = "16px monospace";
+            
+            drops.forEach((y, i) => {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                bgCtx.fillText(text, i * 22, y * 22);
+                
+                if (y * 22 > bgCanvas.height && Math.random() > 0.96) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            });
+        }, 45);
+    </script>
+</body>
+</html>
