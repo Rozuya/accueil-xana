@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supercalculateur - Écran de Démonstration</title>
+    <title>Supercalculateur - Interface Globale</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
@@ -46,7 +46,7 @@
             opacity: 0.25;
         }
 
-        /* Overlay d'activation du son au premier clic */
+        /* Ecran de démarrage au 1er clic */
         #start-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -61,14 +61,14 @@
         }
 
         #start-overlay h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: var(--lyoko-green);
             text-shadow: 0 0 20px var(--lyoko-green);
             text-align: center;
         }
 
         #start-overlay p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #fff;
             animation: pulseText 1.5s infinite alternate;
         }
@@ -203,7 +203,7 @@
             color: #aaa;
         }
 
-        /* Styles d'activation automatique pour la démonstration */
+        /* Animations automatiques */
         .game-card.active-1 {
             border-color: var(--lyoko-yellow);
             color: var(--lyoko-yellow);
@@ -229,6 +229,59 @@
             transform: scale(1.05);
             box-shadow: 0 0 35px var(--lyoko-blue);
             background: rgba(0, 204, 255, 0.1);
+        }
+
+        /* --- PANNEAU DE CONTRÔLE AUDIO --- */
+        .audio-control-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: rgba(8, 14, 20, 0.95);
+            border: 2px solid var(--lyoko-green);
+            border-radius: 12px;
+            padding: 15px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+            width: 320px;
+        }
+
+        .audio-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: #fff;
+        }
+
+        .audio-row label {
+            width: 110px;
+            font-weight: bold;
+        }
+
+        .audio-row input[type="range"] {
+            flex: 1;
+            accent-color: var(--lyoko-green);
+            cursor: pointer;
+        }
+
+        .audio-btn {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--lyoko-green);
+            color: var(--lyoko-green);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Share Tech Mono', monospace;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .audio-btn:hover {
+            background: var(--lyoko-green);
+            color: #000;
         }
     </style>
 </head>
@@ -267,27 +320,64 @@
             <div class="game-card" id="card-3">
                 <span class="pc-tag">ORDINATEUR 3</span>
                 <h3>MISSION 3</h3>
-                <span class="card-desc">Connectez les orbes de même couleur (Cyan, Jaune, Magenta).</span>
+                <span class="card-desc">Connectez les orbes d'énergie cyan, jaunes et magenta.</span>
             </div>
         </div>
     </div>
 
-    <audio id="xana-audio" loop preload="auto">
-        <source src="xana_voice.mp3" type="audio/mpeg">
+    <audio id="voice-audio" loop preload="auto">
+        <source src="supercalculateur.mp3" type="audio/mpeg">
     </audio>
+
+    <audio id="music-audio" loop preload="auto">
+        <source src="A World Without Danger.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="audio-control-panel">
+        <div class="audio-row">
+            <label>🎙️ VOIX IA</label>
+            <input type="range" id="voice-volume" min="0" max="1" step="0.05" value="1" oninput="adjustVolume()">
+            <button class="audio-btn" id="voice-btn" onclick="toggleAudio('voice')">MUTE</button>
+        </div>
+        <div class="audio-row">
+            <label>🎵 MUSIQUE</label>
+            <input type="range" id="music-volume" min="0" max="1" step="0.05" value="0.4" oninput="adjustVolume()">
+            <button class="audio-btn" id="music-btn" onclick="toggleAudio('music')">MUTE</button>
+        </div>
+    </div>
 
     <script>
         const card1 = document.getElementById('card-1');
         const card2 = document.getElementById('card-2');
         const card3 = document.getElementById('card-3');
         const textElement = document.getElementById('typewriter-text');
-        const xanaAudio = document.getElementById('xana-audio');
+        
+        const voiceAudio = document.getElementById('voice-audio');
+        const musicAudio = document.getElementById('music-audio');
+        
+        const voiceVol = document.getElementById('voice-volume');
+        const musicVol = document.getElementById('music-volume');
 
         let charIndex = 0;
-        let isDeleting = false;
         let currentSequence = 0;
 
-        // Sequence de présentation automatique
+        // Contrôle des volumes
+        function adjustVolume() {
+            voiceAudio.volume = voiceVol.value;
+            musicAudio.volume = musicVol.value;
+        }
+
+        function toggleAudio(type) {
+            if (type === 'voice') {
+                voiceAudio.muted = !voiceAudio.muted;
+                document.getElementById('voice-btn').innerText = voiceAudio.muted ? "UNMUTE" : "MUTE";
+            } else if (type === 'music') {
+                musicAudio.muted = !musicAudio.muted;
+                document.getElementById('music-btn').innerText = musicAudio.muted ? "UNMUTE" : "MUTE";
+            }
+        }
+
+        // Séquences de texte et surbrillance des cartes
         const sequences = [
             {
                 text: "BIENVENUE DANS LE SUPERCALCULATEUR. 3 ORDINATEURS SONT À VOTRE DISPOSITION.",
@@ -320,19 +410,16 @@
         function runPresentationCycle() {
             const step = sequences[currentSequence];
             
-            // Gestion de la carte illuminée
             clearCardHighlights();
             if (step.activeCard) {
                 step.activeCard.classList.add(step.activeClass);
             } else {
-                // Tout faire clignoter légèrement pendant l'accueil général
                 card1.style.opacity = "0.8";
                 card2.style.opacity = "0.8";
                 card3.style.opacity = "0.8";
             }
 
             typeWriter(step.text, () => {
-                // Pause après avoir écrit le texte complet (4 secondes)
                 setTimeout(() => {
                     eraseWriter(() => {
                         currentSequence = (currentSequence + 1) % sequences.length;
@@ -364,11 +451,15 @@
 
         function startSystem() {
             document.getElementById('start-overlay').style.display = 'none';
-            xanaAudio.play().catch(() => console.log("Audio non trouvé, continuation en mode visuel."));
+            adjustVolume();
+            
+            voiceAudio.play().catch(e => console.log("Voix introuvable : supercalculateur.mp3"));
+            musicAudio.play().catch(e => console.log("Musique introuvable : A World Without Danger.mp3"));
+            
             runPresentationCycle();
         }
 
-        // --- FOND ANIMÉ PLUIE DE CODE ---
+        // Matrix background
         const bgCanvas = document.getElementById('matrix-bg');
         const bgCtx = bgCanvas.getContext('2d');
         function resBg() { bgCanvas.width = window.innerWidth; bgCanvas.height = window.innerHeight; }
