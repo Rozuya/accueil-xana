@@ -16,36 +16,26 @@
             --panel-bg: rgba(8, 14, 20, 0.92);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
 
         body, html {
-            width: 100%;
-            height: 100vh;
+            width: 100%; height: 100vh;
             background-color: var(--bg-dark);
             color: var(--lyoko-green);
             font-family: 'Share Tech Mono', monospace;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
         }
 
         #matrix-bg {
-            position: absolute;
-            top: 0; left: 0;
+            position: absolute; top: 0; left: 0;
             width: 100vw; height: 100vh;
             z-index: 1; opacity: 0.25;
         }
 
         #start-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(3, 6, 8, 0.95);
             z-index: 100;
             display: flex; flex-direction: column;
@@ -54,15 +44,12 @@
         }
 
         #start-overlay h1 {
-            font-size: 2.8rem;
-            color: var(--lyoko-green);
-            text-shadow: 0 0 20px var(--lyoko-green);
-            text-align: center;
+            font-size: 2.8rem; color: var(--lyoko-green);
+            text-shadow: 0 0 20px var(--lyoko-green); text-align: center;
         }
 
         #start-overlay p {
-            font-size: 1.3rem;
-            color: #fff;
+            font-size: 1.3rem; color: #fff;
             animation: pulseText 1.5s infinite alternate;
         }
 
@@ -72,10 +59,8 @@
         }
 
         .interface-container {
-            position: relative;
-            z-index: 10;
-            display: flex; flex-direction: column;
-            align-items: center;
+            position: relative; z-index: 10;
+            display: flex; flex-direction: column; align-items: center;
             width: 90%; max-width: 1250px;
             background: var(--panel-bg);
             border: 3px solid var(--xana-red);
@@ -84,14 +69,11 @@
             backdrop-filter: blur(8px);
         }
 
-        .system-header {
-            display: flex; align-items: center; gap: 15px; margin-bottom: 20px;
-        }
+        .system-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
 
         .status-dot {
             width: 20px; height: 20px;
-            background-color: var(--xana-red);
-            border-radius: 50%;
+            background-color: var(--xana-red); border-radius: 50%;
             box-shadow: 0 0 20px var(--xana-red);
             animation: pulse 1s infinite alternate;
         }
@@ -102,36 +84,28 @@
         }
 
         .xana-title {
-            font-size: 3.2rem;
-            color: var(--xana-red);
+            font-size: 3.2rem; color: var(--xana-red);
             text-shadow: 0 0 25px var(--xana-red);
-            letter-spacing: 6px;
-            text-transform: uppercase;
+            letter-spacing: 6px; text-transform: uppercase;
         }
 
         .terminal-box {
             width: 100%; height: 110px;
-            background: #000;
-            border: 2px solid var(--lyoko-green);
-            border-radius: 10px;
-            margin: 20px 0 35px 0; padding: 20px;
-            font-size: 1.5rem;
-            display: flex; align-items: center; justify-content: center;
-            text-align: center;
-            box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+            background: #000; border: 2px solid var(--lyoko-green);
+            border-radius: 10px; margin: 20px 0 35px 0; padding: 20px;
+            font-size: 1.5rem; display: flex; align-items: center; justify-content: center;
+            text-align: center; box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
         }
 
         #typewriter-text {
             color: var(--lyoko-green);
             text-shadow: 0 0 10px var(--lyoko-green);
-            text-transform: uppercase;
-            line-height: 1.4;
+            text-transform: uppercase; line-height: 1.4;
         }
 
         .cursor {
             animation: blink 0.8s infinite;
-            color: var(--lyoko-green);
-            font-size: 1.8rem; margin-left: 5px;
+            color: var(--lyoko-green); font-size: 1.8rem; margin-left: 5px;
         }
 
         @keyframes blink {
@@ -139,13 +113,10 @@
             50% { opacity: 0; }
         }
 
-        .games-grid {
-            display: flex; gap: 25px; width: 100%; justify-content: center;
-        }
+        .games-grid { display: flex; gap: 25px; width: 100%; justify-content: center; }
 
         .game-card {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.7);
+            flex: 1; background: rgba(0, 0, 0, 0.7);
             border: 2px solid #333; color: #666;
             padding: 30px 20px; border-radius: 14px;
             transition: all 0.5s ease;
@@ -166,13 +137,11 @@
             opacity: 1; transform: scale(1.05); box-shadow: 0 0 35px var(--lyoko-yellow);
             background: rgba(255, 204, 0, 0.1);
         }
-
         .game-card.active-2 {
             border-color: var(--xana-red); color: var(--xana-red);
             opacity: 1; transform: scale(1.05); box-shadow: 0 0 35px var(--xana-red);
             background: rgba(255, 0, 51, 0.1);
         }
-
         .game-card.active-3 {
             border-color: var(--lyoko-blue); color: var(--lyoko-blue);
             opacity: 1; transform: scale(1.05); box-shadow: 0 0 35px var(--lyoko-blue);
@@ -274,27 +243,147 @@
 
         let charIndex = 0;
         let currentSequence = 0;
-        let typewriterTimeout = null;
 
-        // Découpage et minutage synchronisé sur les 30 secondes de la voix
+        // Découpage étalé précisément sur les 30 secondes de l'audio de la voix
         const sequences = [
             {
                 text: "BIENVENUE DANS LE SUPERCALCULATEUR. TROIS ORDINATEURS SONT MIS À VOTRE DISPOSITION.",
-                activeCard: null,
-                activeClass: '',
-                duration: 5500 // 5.5s
+                activeCard: null, activeClass: '', duration: 5500
             },
             {
                 text: "ORDINATEUR 1 : DÉCODEZ L'ÉNIGME LOGIQUE POUR DÉVERROUILLER LE PREMIER ACCÈS AU RÉSEAU.",
-                activeCard: card1,
-                activeClass: 'active-1',
-                duration: 6500 // 6.5s
+                activeCard: card1, activeClass: 'active-1', duration: 6500
             },
             {
                 text: "ORDINATEUR 2 : AFFRONTEZ LE CYBER-MAZE. GUIDEZ VOTRE ORBE SANS TOUCHER LES MURS ROUGES DE XANA.",
-                activeCard: card2,
-                activeClass: 'active-2',
-                duration: 7000 // 7.0s
+                activeCard: card2, activeClass: 'active-2', duration: 7000
             },
             {
-                text: "ORDINATEUR 3 : RÉTABLISSEZ LE FLUX D
+                text: "ORDINATEUR 3 : RÉTABLISSEZ LE FLUX D'ÉNERGIE EN CONNECTANT LES ORBES CYAN, JAUNE ET MAGENTA.",
+                activeCard: card3, activeClass: 'active-3', duration: 6500
+            },
+            {
+                text: "AGENTS, À VOUS DE JOUER. SÉLECTIONNEZ VOTRE MISSION ET SÉCURISEZ LE RÉSEAU.",
+                activeCard: null, activeClass: '', duration: 4500
+            }
+        ];
+
+        function adjustVolume() {
+            voiceAudio.volume = voiceVol.value;
+            musicAudio.volume = musicVol.value;
+        }
+
+        function toggleAudio(type) {
+            if (type === 'voice') {
+                voiceAudio.muted = !voiceAudio.muted;
+                document.getElementById('voice-btn').innerText = voiceAudio.muted ? "UNMUTE" : "MUTE";
+            } else if (type === 'music') {
+                musicAudio.muted = !musicAudio.muted;
+                document.getElementById('music-btn').innerText = musicAudio.muted ? "UNMUTE" : "MUTE";
+            }
+        }
+
+        function clearCardHighlights() {
+            card1.className = 'game-card';
+            card2.className = 'game-card';
+            card3.className = 'game-card';
+        }
+
+        function runPresentationCycle() {
+            if (currentSequence >= sequences.length) {
+                currentSequence = 0;
+            }
+
+            const step = sequences[currentSequence];
+            
+            clearCardHighlights();
+            if (step.activeCard) {
+                step.activeCard.classList.add(step.activeClass);
+            } else {
+                card1.style.opacity = "0.8";
+                card2.style.opacity = "0.8";
+                card3.style.opacity = "0.8";
+            }
+
+            charIndex = 0;
+            const typingSpeed = Math.floor(step.duration / step.text.length);
+            
+            typeWriter(step.text, typingSpeed, () => {
+                setTimeout(() => {
+                    eraseWriter(() => {
+                        currentSequence++;
+                        runPresentationCycle();
+                    });
+                }, 300);
+            });
+        }
+
+        function typeWriter(fullText, speed, onComplete) {
+            if (charIndex < fullText.length) {
+                textElement.innerText = fullText.substring(0, charIndex + 1);
+                charIndex++;
+                setTimeout(() => typeWriter(fullText, speed, onComplete), speed);
+            } else if (onComplete) {
+                onComplete();
+            }
+        }
+
+        function eraseWriter(onComplete) {
+            if (charIndex > 0) {
+                textElement.innerText = textElement.innerText.substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(() => eraseWriter(onComplete), 12);
+            } else if (onComplete) {
+                onComplete();
+            }
+        }
+
+        function startSystem() {
+            // 1. Masque l'écran de démarrage immédiatement pour ne jamais bloquer l'utilisateur
+            document.getElementById('start-overlay').style.display = 'none';
+            adjustVolume();
+            
+            // 2. Lance la musique et la voix de manière totalement indépendante (sécurisée)
+            voiceAudio.currentTime = 0;
+            voiceAudio.play().catch(e => console.log("Voix audio non jouée :", e));
+            musicAudio.play().catch(e => console.log("Musique audio non jouée :", e));
+            
+            // 3. Lance l'animation du texte et des cartes à coup sûr
+            runPresentationCycle();
+        }
+
+        voiceAudio.addEventListener('ended', () => {
+            currentSequence = 0;
+            voiceAudio.currentTime = 0;
+            voiceAudio.play().catch(() => {});
+        });
+
+        // Fond animé Pluie de données
+        const bgCanvas = document.getElementById('matrix-bg');
+        const bgCtx = bgCanvas.getContext('2d');
+        function resBg() { bgCanvas.width = window.innerWidth; bgCanvas.height = window.innerHeight; }
+        window.addEventListener('resize', resBg); resBg();
+        
+        const chars = "01XANA01LYOKO0199";
+        let drops = Array(Math.floor(bgCanvas.width / 22)).fill(1);
+        
+        setInterval(() => {
+            bgCtx.fillStyle = "rgba(3, 6, 8, 0.12)";
+            bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+            
+            bgCtx.fillStyle = "#ff0033";
+            bgCtx.font = "16px monospace";
+            
+            drops.forEach((y, i) => {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                bgCtx.fillText(text, i * 22, y * 22);
+                
+                if (y * 22 > bgCanvas.height && Math.random() > 0.96) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            });
+        }, 45);
+    </script>
+</body>
+</html>
