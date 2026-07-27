@@ -244,7 +244,7 @@
         let charIndex = 0;
         let currentSequence = 0;
 
-        // Découpage étalé précisément sur les 30 secondes de l'audio de la voix
+        // Découpage étalé précisément pour totaliser exactement 30 000 ms (30 secondes)
         const sequences = [
             {
                 text: "BIENVENUE DANS LE SUPERCALCULATEUR. TROIS ORDINATEURS SONT MIS À VOTRE DISPOSITION.",
@@ -306,6 +306,7 @@
             }
 
             charIndex = 0;
+            // Calcule la vitesse pour étaler l'écriture de chaque phrase sur toute sa durée allouée
             const typingSpeed = Math.floor(step.duration / step.text.length);
             
             typeWriter(step.text, typingSpeed, () => {
@@ -314,7 +315,7 @@
                         currentSequence++;
                         runPresentationCycle();
                     });
-                }, 300);
+                }, 150);
             });
         }
 
@@ -332,23 +333,21 @@
             if (charIndex > 0) {
                 textElement.innerText = textElement.innerText.substring(0, charIndex - 1);
                 charIndex--;
-                setTimeout(() => eraseWriter(onComplete), 12);
+                setTimeout(() => eraseWriter(onComplete), 10);
             } else if (onComplete) {
                 onComplete();
             }
         }
 
         function startSystem() {
-            // 1. Masque l'écran de démarrage immédiatement pour ne jamais bloquer l'utilisateur
+            // Masque l'écran de démarrage instantanément pour ne jamais bloquer l'affichage
             document.getElementById('start-overlay').style.display = 'none';
             adjustVolume();
             
-            // 2. Lance la musique et la voix de manière totalement indépendante (sécurisée)
             voiceAudio.currentTime = 0;
             voiceAudio.play().catch(e => console.log("Voix audio non jouée :", e));
             musicAudio.play().catch(e => console.log("Musique audio non jouée :", e));
             
-            // 3. Lance l'animation du texte et des cartes à coup sûr
             runPresentationCycle();
         }
 
